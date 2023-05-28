@@ -1,5 +1,6 @@
-package com.assetco.search.results;
+package com.assetco.search.tests;
 
+import com.assetco.search.results.Money;
 import org.junit.jupiter.api.*;
 
 import java.math.*;

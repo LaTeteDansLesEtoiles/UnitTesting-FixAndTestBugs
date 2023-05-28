@@ -1,4 +1,6 @@
-package com.assetco.search.results;
+package com.assetco.search.tests;
+
+import com.assetco.search.results.*;
 
 import java.math.*;
 import java.net.*;

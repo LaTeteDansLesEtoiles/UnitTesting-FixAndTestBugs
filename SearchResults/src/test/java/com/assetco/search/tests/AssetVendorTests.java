@@ -1,5 +1,6 @@
-package com.assetco.search.results;
+package com.assetco.search.tests;
 
+import com.assetco.search.results.AssetVendor;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
