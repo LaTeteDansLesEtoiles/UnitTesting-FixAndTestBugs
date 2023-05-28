@@ -4,7 +4,7 @@ import com.assetco.hotspots.optimization.SearchResultHotspotOptimizer;
 import com.assetco.search.results.*;
 import org.junit.jupiter.api.Test;
 
-import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
@@ -16,10 +16,9 @@ class BugsTest {
   private Asset disrupting;
   private Asset missing;
   private List<Asset> expected;
-  private List<Asset> found;
 
   @Test
-  void precedingPartnerWithLongTrailingAssetsDoesNotWin() throws URISyntaxException {
+  void precedingPartnerWithLongTrailingAssetsDoesNotWin() {
     // Given
     AssetVendor partnerVendor = makeVendor("BigShotz!", AssetVendorRelationshipLevel.Partner);
     missing = givenAssetInResultsWithVendor(partnerVendor);
@@ -27,6 +26,10 @@ class BugsTest {
     AssetVendor disruptingAssetVendor = makeVendor("Celeb Pix", AssetVendorRelationshipLevel.Partner);
     disrupting = givenAssetInResultsWithVendor(disruptingAssetVendor);
     expected = givenFourAssetsFromPartnerVendor(partnerVendor);
+
+    var allAssets = new ArrayList<>(expected);
+    allAssets.add(missing);
+    allAssets.add(disrupting);
 
     // When
     whenOptimize();
@@ -44,7 +47,7 @@ class BugsTest {
     return new Asset(Any.string(), Any.string(), Any.URI(), Any.URI(), Any.assetPurchaseInfo(), Any.assetPurchaseInfo(), Any.setOfTopics(), partnerVendor);
   }
 
-  private List<Asset> givenFourAssetsFromPartnerVendor(AssetVendor partnerVendor) throws URISyntaxException {
+  private List<Asset> givenFourAssetsFromPartnerVendor(AssetVendor partnerVendor) {
     return List.of(
             givenAssetInResultsWithVendor(partnerVendor),
             givenAssetInResultsWithVendor(partnerVendor),
@@ -71,8 +74,8 @@ class BugsTest {
   }
 
   private void thenHotspotHasExactly(HotspotKey showcase, List<Asset> expected) {
-    Asset[] actual = this.searchResults.getHotspot(showcase).getMembers().stream().toArray(Asset[]::new);
-    Asset[] exp = expected.stream().toArray((Asset[]::new));
+    Asset[] actual = this.searchResults.getHotspot(showcase).getMembers().toArray(Asset[]::new);
+    Asset[] exp = expected.toArray(Asset[]::new);
 
     assertArrayEquals(exp, actual, "Both arrays should be equal!");
   }
