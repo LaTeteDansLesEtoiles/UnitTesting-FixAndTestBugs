@@ -68,16 +68,15 @@ class BugsTest {
   private void thenHotspotDoesNotHave(HotspotKey key, Asset asset) {
     assertTrue(
             this.searchResults.getHotspot(key).getMembers().stream()
-                    .noneMatch(asset1 -> asset1.equals(asset)
-                    )
+                    .noneMatch(asset1 -> asset1.equals(asset))
     );
   }
 
   private void thenHotspotHasExactly(HotspotKey showcase, List<Asset> expected) {
-    Asset[] actual = this.searchResults.getHotspot(showcase).getMembers().toArray(Asset[]::new);
-    Asset[] exp = expected.toArray(Asset[]::new);
-
-    assertArrayEquals(exp, actual, "Both arrays should be equal!");
+    assertArrayEquals(
+            expected.toArray(),
+            this.searchResults.getHotspot(showcase).getMembers().toArray(),
+            "Both arrays should be equal!");
   }
 
 }
